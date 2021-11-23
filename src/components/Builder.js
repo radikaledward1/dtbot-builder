@@ -1,16 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import ReactFlow, { Handle } from 'react-flow-renderer';
+import ReactFlow, { Handle, removeElements } from 'react-flow-renderer';
 import cryptoRandomString from 'crypto-random-string';
 
 import ActionsModal from './Actions-Modal';
+import ConfirmModal from './Confirm-Modal';
 
 import './Builder.css';
 
 export default function Builder() {
 
     const [nodes, setNodes] = useState([]);
+
     const [showactionsmodal, setShowActionsModal] = useState(false);
+    const [showconfirmmodal, setShowConfirmModal] = useState(false);
+
     const [sourcenode, setSourceNode] = useState();
+    const [removenodeid, setRemoveNodeId] = useState();
 
     useEffect(() => {}, [])
     
@@ -38,7 +43,7 @@ export default function Builder() {
             <div style={{fontWeight: "bold", padding: "5px"}}>{data.type}</div>
             <div className="body">{data.title}</div>
             <div className="footer">
-                <button type="button" className={`btn delete`} title="Delete"></button>
+                <button type="button" onClick={() => {showConfirmModal(id)}} className={`btn delete`} title="Delete"></button>
                 <button type="button" onClick={() => {showActionsModal(id)}} className={`btn join`} title="Join"></button>
                 <button type="button" onClick={() => {nodeProperties(id)}} className={`btn properties`} title="Properties"></button>
             </div>
@@ -61,7 +66,29 @@ export default function Builder() {
         setSourceNode(id);
     }
 
-    const itemClicked = (e) => {
+    const createJoinNode = (obj) => {
+        setNodes(nodes => [...nodes, obj]);
+        
+        let showactions = (showactionsmodal) ? false : true;
+        setShowActionsModal(showactions);
+    }
+
+    const showConfirmModal = (id) => {
+      let showconfirm = (showconfirmmodal) ? false : true;
+      setShowConfirmModal(showconfirm);
+      setRemoveNodeId(id);
+    }
+
+    const removeNodeById = () => {
+      let elementsToRemove = nodes.filter(n => {return n.id == removenodeid || n.source == removenodeid || n.target == removenodeid})
+      console.log(elementsToRemove);
+      setNodes((els) => removeElements(elementsToRemove, els));
+
+      let showconfirm = (showconfirmmodal) ? false : true;
+      setShowConfirmModal(showconfirm);
+    }
+
+     const itemClicked = (e) => {
         //alert(`The item ${e} been clicked!!`);
         let _id = cryptoRandomString({length: 10});
         let structure = {};
@@ -92,19 +119,13 @@ export default function Builder() {
         }
     }
 
-    const createJoinNode = (obj) => {
-        setNodes(nodes => [...nodes, obj]);
-        
-        let showactions = (showactionsmodal) ? false : true;
-        setShowActionsModal(showactions);
-    }
-
     return (
       <div className="App">
         <div className="container">
           <div className="editor">
-            <ReactFlow elements={nodes} nodeTypes={nodeTypes}/>
+            <ReactFlow elements={nodes} nodeTypes={nodeTypes} />
             <ActionsModal open={showactionsmodal} handleClose={showActionsModal} nodes={nodes} source={sourcenode} onJoin={createJoinNode}/>
+            <ConfirmModal open={showconfirmmodal} onClose={showConfirmModal} onConfirm={removeNodeById}/>
           </div>
           <div className="sidebar">
               <div className="item" onClick={() => {itemClicked('text')}}>Text</div>

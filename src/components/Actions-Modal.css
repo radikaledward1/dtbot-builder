@@ -11,6 +11,7 @@
 .modal-main {
   position:fixed;
   background: white;
+  border: 1px lightgray solid;
   width: 15%;
   height: auto;
   top:50%;
