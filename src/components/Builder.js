@@ -36,6 +36,10 @@ export default function Builder() {
       }
     ];*/
 
+    /**This component is not on State so never have updated access to other states like the principal Nodes Array, so
+     * console.log(nodes) could show length 0 or a empty object.
+     */
+
     const CustomNodeComponent = ({ id, data }) => {
       return (
         <div className="custom-node">
@@ -45,7 +49,7 @@ export default function Builder() {
             <div className="footer">
                 <button type="button" onClick={() => {showConfirmModal(id)}} className={`btn delete`} title="Delete"></button>
                 <button type="button" onClick={() => {showActionsModal(id)}} className={`btn join`} title="Join"></button>
-                <button type="button" onClick={() => {nodeProperties(id)}} className={`btn properties`} title="Properties"></button>
+                <button type="button" onClick={() => {getData(data)}} className={`btn properties`} title="Properties"></button>
             </div>
           <Handle type="source" position="bottom" id={`node_src_${id}`} style={{ borderRadius: 0 }} />
         </div>
@@ -88,28 +92,47 @@ export default function Builder() {
       setShowConfirmModal(showconfirm);
     }
 
+    const getData = (data) => {
+      console.log(data);
+    }
+
      const itemClicked = (e) => {
         //alert(`The item ${e} been clicked!!`);
         let _id = cryptoRandomString({length: 10});
         let structure = {};
+        let tmparr = [];
+        let num = null;
+        let title = null;
 
         switch (e) {
             case 'text':
+
+                tmparr = nodes.filter(n => {return n.data.type == 'Text'})
+                num = (tmparr.length > 0) ? (tmparr[tmparr.length - 1].number) + 1 : (tmparr.length + 1) ;
+                title = (num > 1) ? `Text (${num})` : 'Text'; 
+
                 structure = {
                     id: _id,
                     type: "custom",
                     position: { x: 50, y: 25 },
-                    data: { title: 'New Node', type: 'Text'}
+                    number: num,
+                    data: { title: title, type: 'Text', showData: getData}
                 }
                 //_nodes = [...nodes, structure];
                 setNodes(nodes => [...nodes, structure]);
                 break;
             case 'menulist':
+                
+                tmparr = nodes.filter(n => {return n.data.type == 'Menu List'})
+                num = (tmparr.length > 0) ? (tmparr[tmparr.length - 1].number) + 1 : (tmparr.length + 1) ;
+                title = (num > 1) ? `Menu List (${num})` : 'Menu List';
+
                 structure = {
                     id: _id,
                     type: "custom",
                     position: { x: 50, y: 25 },
-                    data: { title: 'New Node', type: 'Menu List'}
+                    number: num,
+                    data: { title: title, type: 'Menu List'}
                 }
                 //_nodes = [...nodes, structure];
                 setNodes(nodes => [...nodes, structure]);

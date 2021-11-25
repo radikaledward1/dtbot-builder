@@ -6,13 +6,13 @@
 
 .editor {
     display: flex;
-    background-color: yellow;
+    background-color: #F4F4F5;
     width: 75%;
 }
 
 .sidebar {
     display: flex;
-    background-color: red;
+    background-color: white;
     flex: auto;
     flex-direction: column;
 }
@@ -41,7 +41,7 @@
 }
 
 .custom-node:hover {
-    border-color: lightgreen;
+    border-color: pink;
 }
 
 .custom-node .body {

@@ -11,9 +11,12 @@ export default function ActionsModal({handleClose, open, nodes, onJoin, source})
     }
 
      return (
-       <div className={(open) ? `modal display-block` : `modal display-none`}>
+       <div id="modal-action" className={(open) ? `modal display-block` : `modal display-none`}>
          <div className="modal-main">
-           <div className="list-container">
+           <div className="header">
+             Seleccione entre las acciones a enlazar
+           </div>
+           <div className="body list-container">
                <ul>
                    {
                         nodes.filter(n => {return n.id != source}).map((node, index) => (
@@ -24,7 +27,9 @@ export default function ActionsModal({handleClose, open, nodes, onJoin, source})
                    }
                </ul>
            </div>
-           <button type="button" style={{float: 'right', margin: '5px'}}onClick={handleClose}>Cancel</button>
+           <div className="footer">
+              <button type="button" className="btn btn-cancel" onClick={handleClose}>Cancelar</button>
+           </div>
          </div>
        </div>
      );
