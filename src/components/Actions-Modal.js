@@ -14,18 +14,18 @@ export default function ActionsModal({handleClose, open, nodes, onJoin, source})
        <div id="modal-action" className={(open) ? `modal display-block` : `modal display-none`}>
          <div className="modal-main">
            <div className="header">
-             Seleccione entre las acciones a enlazar
+             Select an action to join
            </div>
            <div className="body list-container">
-               <ul>
-                   {
+
+               {
                         nodes.filter(n => {return n.id != source}).map((node, index) => (
                             (node.type && node.type == 'custom') ?
-                                <li key={node.id} onClick={() =>{joinNode(node.id)}}>{node.data.title}</li>
+                                <div key={node.id} onClick={() =>{joinNode(node.id)}}>{node.data.title}</div>
                             : ''
                         ))
-                   }
-               </ul>
+               }
+
            </div>
            <div className="footer">
               <button type="button" className="btn btn-cancel" onClick={handleClose}>Cancelar</button>

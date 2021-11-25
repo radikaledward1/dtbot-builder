@@ -41,7 +41,7 @@
 }
 
 .custom-node:hover {
-    border-color: pink;
+    border-color: magenta;
 }
 
 .custom-node .body {

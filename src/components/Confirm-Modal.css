@@ -19,6 +19,7 @@
     top:50%;
     left:50%;
     transform: translate(-50%,-50%);
+    box-shadow: 0 0 18px 8px rgba(0, 0, 0, 0.1), 0 0 32px 32px rgba(0, 0, 0, 0.08);
   }
 
   #modal-confirm .modal-main .header {
@@ -40,11 +41,11 @@
     display: flex;
     justify-content: right;
     height: auto;
+    padding: 10px;
   }
 
   #modal-confirm .btn {
     border: none;
-    padding: 0.35em 1.2em;
     margin: 3px;
     font-family:'Roboto',sans-serif;
     font-weight:300;
